@@ -213,7 +213,7 @@ func reviewRange(cmd *cobra.Command, kind string, start, end time.Time) error {
 	buf.WriteString(fmt.Sprintf("\n[%s, %s]", start.Format(timeFormat), end.Format(timeFormat)))
 	log.Debug("reviews: ", buf.String())
 	bot := feishu.WebhookBot(cfg.FeishuWebhookToken)
-	return bot.SendMarkdownMessage(ctx, fmt.Sprintf("Review Top %d 👍 - %s", topN, "2021.09.01～2021-09.31"), buf.String(), feishu.TitleColorGreen)
+	return bot.SendMarkdownMessage(ctx, fmt.Sprintf("Review Top %d 👍 - %s", topN, "2021.10.01～2021-10.31"), buf.String(), feishu.TitleColorGreen)
 }
 
 type review struct {
