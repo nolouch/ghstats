@@ -32,4 +32,4 @@ run-monthly-review: build
 	./bin/gh -c cfg.toml review monthly
 
 run-debug: build
-	./bin/gh -c cfg.toml debug "2021-04-01 00:00:00" "2021-05-31 23:59:59"
+	./bin/gh review debug "2021-04-01 00:00:00" "2021-06-30 23:59:59"  -c cfg.toml
