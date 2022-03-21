@@ -4,6 +4,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"path"
 	"runtime"
 	"strings"
@@ -31,6 +32,6 @@ func main() {
 	// 	log.Info("Failed to log to file, using default stderr")
 	// }
 	// log.SetOu
-
+	log.SetOutput(os.Stdout)
 	cmd.Execute()
 }
