@@ -151,7 +151,7 @@ func reviewRange(cmd *cobra.Command, kind string, start, end time.Time) error {
 				projects[proj.Name] = append(projects[proj.Name], results...)
 			}
 		}
-		log.Debug("projects issues: ", debug.PrettyFormat(projects))
+		log.Info("projects issues: ", debug.PrettyFormat(projects))
 		for repo, results := range projects {
 			_ = repo
 			for _, res := range results {
@@ -180,7 +180,7 @@ func reviewRange(cmd *cobra.Command, kind string, start, end time.Time) error {
 	sort.Sort(sort.Reverse(rs))
 
 	// To keep message short we only send top 5 reviewer.
-	topN := 5
+	topN := 20
 	buf := strings.Builder{}
 	for i, r := range rs {
 		user, review := r.user, r.review
@@ -213,7 +213,7 @@ func reviewRange(cmd *cobra.Command, kind string, start, end time.Time) error {
 	buf.WriteString(fmt.Sprintf("\n[%s, %s]", start.Format(timeFormat), end.Format(timeFormat)))
 	log.Debug("reviews: ", buf.String())
 	bot := feishu.WebhookBot(cfg.FeishuWebhookToken)
-	return bot.SendMarkdownMessage(ctx, fmt.Sprintf("Review Top %d 👍 - %s", topN, kind), buf.String(), feishu.TitleColorGreen)
+	return bot.SendMarkdownMessage(ctx, fmt.Sprintf("Review Top %d 👍 - %s", topN, "2022.03.01～2022-03.21"), buf.String(), feishu.TitleColorGreen)
 }
 
 type review struct {
@@ -353,10 +353,10 @@ func collectReviews(
 	reviews map[string]review,
 ) error {
 	collectors := []collector{
-		collectIssueCreates,
+		//collectIssueCreates,
 		collectPRLGTM,
 		collectPRReviewComments,
-		collectIssueAndPRComments,
+		//collectIssueAndPRComments,
 	}
 	for _, collect := range collectors {
 		err := collect(ctx, c, client, issues, reviews)
@@ -396,7 +396,7 @@ func collectPRLGTM(
 				// Do not count author's comments.
 				continue
 			}
-			if !c.withinTimeRange(*prReview.SubmittedAt) {
+			if prReview == nil || prReview.SubmittedAt == nil || !c.withinTimeRange(*prReview.SubmittedAt) {
 				continue
 			}
 			if *prReview.State == "APPROVED" || c.isCommentLGTM(*prReview.Body) {
@@ -437,7 +437,7 @@ func collectPRReviewComments(
 				// Do not count author's comments.
 				continue
 			}
-			if !c.withinTimeRange(*prReview.SubmittedAt) {
+			if prReview == nil || prReview.SubmittedAt == nil || !c.withinTimeRange(*prReview.SubmittedAt) {
 				continue
 			}
 
