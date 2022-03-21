@@ -151,7 +151,7 @@ func reviewRange(cmd *cobra.Command, kind string, start, end time.Time) error {
 				projects[proj.Name] = append(projects[proj.Name], results...)
 			}
 		}
-		log.Debug("projects issues: ", debug.PrettyFormat(projects))
+		log.Info("projects issues: ", debug.PrettyFormat(projects))
 		for repo, results := range projects {
 			_ = repo
 			for _, res := range results {
