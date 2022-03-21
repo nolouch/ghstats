@@ -396,7 +396,7 @@ func collectPRLGTM(
 				// Do not count author's comments.
 				continue
 			}
-			if !c.withinTimeRange(*prReview.SubmittedAt) {
+			if prReview == nil || prReview.SubmittedAt == nil || !c.withinTimeRange(*prReview.SubmittedAt) {
 				continue
 			}
 			if *prReview.State == "APPROVED" || c.isCommentLGTM(*prReview.Body) {
