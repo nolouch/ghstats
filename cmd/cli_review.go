@@ -437,7 +437,7 @@ func collectPRReviewComments(
 				// Do not count author's comments.
 				continue
 			}
-			if !c.withinTimeRange(*prReview.SubmittedAt) {
+			if prReview == nil || prReview.SubmittedAt == nil || !c.withinTimeRange(*prReview.SubmittedAt) {
 				continue
 			}
 
