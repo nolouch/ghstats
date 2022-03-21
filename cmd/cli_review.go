@@ -353,10 +353,10 @@ func collectReviews(
 	reviews map[string]review,
 ) error {
 	collectors := []collector{
-		collectIssueCreates,
+		//collectIssueCreates,
 		collectPRLGTM,
 		collectPRReviewComments,
-		collectIssueAndPRComments,
+		//collectIssueAndPRComments,
 	}
 	for _, collect := range collectors {
 		err := collect(ctx, c, client, issues, reviews)
